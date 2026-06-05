@@ -1,2 +1,1304 @@
-# apadrinhamento
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pré-Inscrição — Projeto de Apadrinhamento | Comarca de Leme/SP</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --violet: #3C3489;
+    --violet-mid: #534AB7;
+    --violet-light: #EEEDFE;
+    --violet-pale: #F5F5FD;
+    --gold: #BA7517;
+    --gold-mid: #EF9F27;
+    --gold-light: #FAEEDA;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --border: #D8D6E8;
+    --border-focus: #7F77DD;
+    --text: #1A1830;
+    --text-mid: #4A4769;
+    --text-muted: #8A87A8;
+    --bg: #F8F7FF;
+    --white: #FFFFFF;
+    --error: #C0392B;
+    --success: #0F6E56;
+    --required: #B03A2E;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: var(--violet);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-stripe {
+    height: 5px;
+    background: linear-gradient(90deg, var(--gold-mid) 0%, var(--gold) 100%);
+  }
+  .header-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .header-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1.5rem;
+  }
+  .tjsp-badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
+  }
+  .mp-badge {
+    background: rgba(239,159,39,0.18);
+    border: 1px solid rgba(239,159,39,0.3);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    color: var(--gold-mid);
+    text-transform: uppercase;
+  }
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 5vw, 36px);
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .header-title span { color: var(--gold-mid); }
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .header-portaria {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+  }
+  .header-portaria::before {
+    content: "⚖";
+    font-size: 14px;
+  }
+  .header-deco {
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    pointer-events: none;
+  }
+  .header-deco2 {
+    position: absolute;
+    right: 60px;
+    bottom: -60px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: rgba(239,159,39,0.05);
+    border: 1px solid rgba(239,159,39,0.08);
+    pointer-events: none;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-bar-wrap {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(60,52,137,0.06);
+  }
+  .progress-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--violet-light);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--violet-mid);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-pct {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--violet-mid);
+    min-width: 32px;
+    text-align: right;
+  }
+
+  /* ── MAIN ── */
+  .main-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── ALERT BOX ── */
+  .alert-box {
+    background: var(--gold-light);
+    border: 1px solid #E8C97A;
+    border-left: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 2rem;
+    font-size: 13px;
+    color: #6B4A0A;
+    line-height: 1.6;
+  }
+  .alert-box strong { color: var(--gold); }
+
+  /* ── SECTION CARDS ── */
+  .form-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .form-section:focus-within {
+    box-shadow: 0 0 0 3px rgba(127,119,221,0.12);
+    border-color: var(--border-focus);
+  }
+  .section-header {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--violet-pale);
+  }
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--violet-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--violet);
+  }
+  .section-num {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    background: var(--violet-light);
+    padding: 3px 10px;
+    border-radius: 99px;
+  }
+  .section-body { padding: 1.5rem; }
+
+  /* ── FIELDS ── */
+  .field-grid {
+    display: grid;
+    gap: 1.2rem;
+  }
+  .field-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .field-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  @media (max-width: 560px) {
+    .field-grid.cols-2, .field-grid.cols-3 { grid-template-columns: 1fr; }
+  }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-mid);
+    letter-spacing: 0.03em;
+  }
+  label .req {
+    color: var(--required);
+    margin-left: 2px;
+    font-size: 13px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--white);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(127,119,221,0.15);
+  }
+  input.invalid { border-color: var(--error); }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A87A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+  .field-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* ── RADIO / CHECK GROUPS ── */
+  .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 2px;
+  }
+  .option-group.inline { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+
+  .option-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px 13px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .option-item:hover { border-color: var(--border-focus); background: var(--violet-pale); }
+  .option-item.selected {
+    border-color: var(--violet-mid);
+    background: var(--violet-light);
+  }
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    width: 16px; height: 16px;
+    min-width: 16px;
+    margin-top: 2px;
+    accent-color: var(--violet-mid);
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+  .option-item input:focus { box-shadow: none; border-color: transparent; }
+  .option-label { font-size: 13px; color: var(--text); }
+  .option-label strong { display: block; font-weight: 500; font-size: 13px; color: var(--violet); margin-bottom: 2px; }
+  .option-label span { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+  /* ── MODALIDADE CARDS ── */
+  .modalidade-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .mod-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .mod-card:hover { border-color: var(--border-focus); background: var(--violet-pale); }
+  .mod-card.selected-mod { border-color: var(--violet-mid); background: var(--violet-light); }
+  .mod-card.selected-gold { border-color: var(--gold); background: var(--gold-light); }
+  .mod-card.selected-teal { border-color: var(--teal); background: var(--teal-light); }
+  .mod-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .mod-icon.v { background: var(--violet-light); }
+  .mod-icon.g { background: var(--gold-light); }
+  .mod-icon.t { background: var(--teal-light); }
+  .mod-text { flex: 1; }
+  .mod-name { font-weight: 500; font-size: 14px; color: var(--text); margin-bottom: 3px; }
+  .mod-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .mod-card input[type="radio"] {
+    width: 16px; height: 16px; accent-color: var(--violet-mid);
+    margin-top: 2px; flex-shrink: 0;
+    padding: 0; border: none; box-shadow: none;
+  }
+  .mod-card input:focus { box-shadow: none; border-color: transparent; }
+
+  /* ── DECLARO ── */
+  .declaro-box {
+    background: var(--violet-pale);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 1.2rem;
+  }
+  .declaro-box p {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .check-item input[type="checkbox"] {
+    width: 17px; height: 17px; min-width: 17px;
+    margin-top: 1px;
+    accent-color: var(--violet-mid);
+    cursor: pointer;
+    padding: 0; border: none; box-shadow: none;
+  }
+  .check-item input:focus { box-shadow: none; }
+  .check-item label { font-size: 13px; color: var(--text-mid); cursor: pointer; line-height: 1.5; }
+  .check-item label strong { color: var(--text); font-weight: 500; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.2rem 0;
+  }
+
+  /* ── SUBMIT ── */
+  .submit-area { margin-top: 2rem; }
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--violet);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.02em;
+  }
+  .submit-btn:hover { background: var(--violet-mid); }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { background: var(--text-muted); cursor: not-allowed; }
+
+  .submit-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  /* ── SUCCESS ── */
+  #success-screen {
+    display: none;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .success-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--teal-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 1.5rem;
+  }
+  #success-screen h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+  }
+  #success-screen p {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .success-card {
+    background: var(--teal-light);
+    border: 1px solid #9FE1CB;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--teal);
+    text-align: left;
+    margin-top: 1.5rem;
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    background: var(--violet);
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .page-footer strong { color: rgba(255,255,255,0.85); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .header-inner { padding: 2rem 1.2rem 1.5rem; }
+    .main-wrap { padding: 1.5rem 1rem 3rem; }
+    .section-body { padding: 1.2rem; }
+  }
+
+  /* ── ANIMATION ── */
+  .form-section {
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .form-section:nth-child(1) { animation-delay: 0.05s; }
+  .form-section:nth-child(2) { animation-delay: 0.10s; }
+  .form-section:nth-child(3) { animation-delay: 0.15s; }
+  .form-section:nth-child(4) { animation-delay: 0.20s; }
+  .form-section:nth-child(5) { animation-delay: 0.25s; }
+  .form-section:nth-child(6) { animation-delay: 0.30s; }
+  .form-section:nth-child(7) { animation-delay: 0.35s; }
+  .form-section:nth-child(8) { animation-delay: 0.40s; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="header-stripe"></div>
+  <div class="header-deco"></div>
+  <div class="header-deco2"></div>
+  <div class="header-inner">
+    <div class="header-logo-row">
+      <span class="tjsp-badge">TJSP · Comarca de Leme</span>
+      <span class="mp-badge">Ministério Público</span>
+    </div>
+    <h1 class="header-title">Projeto de <span>Apadrinhamento</span><br>Pré-Inscrição</h1>
+    <p class="header-sub">Ficha de pré-inscrição para candidatos ao Programa de Apadrinhamento Afetivo, Financeiro ou de Prestação de Serviços destinado a crianças e adolescentes em situação de acolhimento institucional na Comarca de Leme/SP.</p>
+    <div class="header-portaria">Portaria Conjunta nº 01/2025 — Vara da Infância e Juventude + Ministério Público · Provimento CG 36/2024</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <div class="progress-inner">
+    <span class="progress-label">Preenchimento</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span class="progress-pct" id="progress-pct">0%</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+
+  <div class="alert-box">
+    <strong>Atenção:</strong> Esta é uma ficha de <strong>pré-inscrição</strong>. O preenchimento não garante a habilitação automática. Após o recebimento, a equipe técnica da entidade entrará em contato para os próximos passos: triagem, entrevista psicossocial, visita domiciliar e oficinas de formação, conforme o art. 15 da Portaria nº 01/2025. Campos marcados com <span style="color:var(--required); font-weight:600">*</span> são obrigatórios.
+  </div>
+
+  <form id="main-form" novalidate>
+
+    <!-- SEÇÃO 1: MODALIDADE -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">💜</div>
+        <span class="section-title">Modalidade de Apadrinhamento</span>
+        <span class="section-num">1 / 8</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label>Selecione a modalidade desejada <span class="req">*</span></label>
+          <div class="modalidade-cards" id="mod-cards">
+            <label class="mod-card" id="mc-afetivo">
+              <input type="radio" name="modalidade" value="afetivo" required onchange="selectMod(this,'selected-mod','mc-afetivo')">
+              <div class="mod-icon v">💜</div>
+              <div class="mod-text">
+                <div class="mod-name">Apadrinhamento Afetivo</div>
+                <div class="mod-desc">Criação de vínculo afetivo com uma criança ou adolescente por meio de visitas regulares, pernoites em fins de semana, feriados e férias, orientação nos estudos e presença em datas importantes. Exige disponibilidade de tempo e de afeto.</div>
+              </div>
+            </label>
+            <label class="mod-card" id="mc-financeiro">
+              <input type="radio" name="modalidade" value="financeiro" onchange="selectMod(this,'selected-gold','mc-financeiro')">
+              <div class="mod-icon g">💛</div>
+              <div class="mod-text">
+                <div class="mod-name">Apadrinhamento Financeiro</div>
+                <div class="mod-desc">Contribuição econômica mensal ou pontual para atender necessidades da criança ou adolescente: saúde, educação, esporte, lazer e cultura. Não exige contato direto com o apadrinhado. Aceita pessoas físicas e jurídicas.</div>
+              </div>
+            </label>
+            <label class="mod-card" id="mc-servicos">
+              <input type="radio" name="modalidade" value="servicos" onchange="selectMod(this,'selected-teal','mc-servicos')">
+              <div class="mod-icon t">🤝</div>
+              <div class="mod-text">
+                <div class="mod-name">Prestação de Serviços Voluntários</div>
+                <div class="mod-desc">Oferta de serviço profissional qualificado de forma voluntária e gratuita — aulas, cursos, tratamento de saúde, entre outros — conforme a especialidade do padrinho. Aceita pessoas físicas e jurídicas.</div>
+              </div>
+            </label>
+          </div>
+          <span class="field-hint">Você poderá, futuramente, solicitar migração de modalidade à equipe técnica.</span>
+        </div>
+
+        <div id="area-servico" style="display:none; margin-top:1rem;">
+          <div class="divider"></div>
+          <div class="field">
+            <label>Qual serviço ou habilidade profissional você pretende oferecer? <span class="req">*</span></label>
+            <textarea name="servico_desc" placeholder="Descreva sua área de atuação e o tipo de serviço que poderá prestar (ex.: aulas de reforço escolar em matemática, atendimento fisioterapêutico, aulas de violão, etc.)"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 2: IDENTIFICAÇÃO -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">👤</div>
+        <span class="section-title">Identificação Pessoal</span>
+        <span class="section-num">2 / 8</span>
+      </div>
+      <div class="section-body">
+        <div class="field-grid">
+          <div class="field" style="grid-column: 1 / -1;">
+            <label>Nome completo <span class="req">*</span></label>
+            <input type="text" name="nome" placeholder="Conforme documento de identidade" required>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field-grid cols-2" style="margin-bottom:1.2rem;">
+          <div class="field">
+            <label>RG (nº e órgão emissor) <span class="req">*</span></label>
+            <input type="text" name="rg" placeholder="Ex.: 12.345.678-9 SSP/SP" required>
+          </div>
+          <div class="field">
+            <label>CPF <span class="req">*</span></label>
+            <input type="text" name="cpf" placeholder="000.000.000-00" required>
+          </div>
+        </div>
+
+        <div class="field-grid cols-2" style="margin-bottom:1.2rem;">
+          <div class="field">
+            <label>Data de nascimento <span class="req">*</span></label>
+            <input type="date" name="nascimento" required>
+            <span class="field-hint">Exigida idade mínima de 18 anos e diferença mínima de 16 anos do apadrinhado (modalidade afetiva).</span>
+          </div>
+          <div class="field">
+            <label>Naturalidade</label>
+            <input type="text" name="naturalidade" placeholder="Cidade / Estado">
+          </div>
+        </div>
+
+        <div class="field-grid cols-2">
+          <div class="field">
+            <label>Nacionalidade <span class="req">*</span></label>
+            <select name="nacionalidade" required>
+              <option value="">Selecione</option>
+              <option>Brasileira</option>
+              <option>Estrangeira naturalizada</option>
+              <option>Outra</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Profissão / Ocupação <span class="req">*</span></label>
+            <input type="text" name="profissao" placeholder="Informe sua profissão atual" required>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Escolaridade <span class="req">*</span></label>
+          <select name="escolaridade" required>
+            <option value="">Selecione</option>
+            <option>Ensino fundamental incompleto</option>
+            <option>Ensino fundamental completo</option>
+            <option>Ensino médio incompleto</option>
+            <option>Ensino médio completo</option>
+            <option>Ensino superior incompleto</option>
+            <option>Ensino superior completo</option>
+            <option>Pós-graduação / Especialização</option>
+            <option>Mestrado ou Doutorado</option>
+          </select>
+        </div>
+
+        <!-- PESSOA JURÍDICA -->
+        <div id="area-pj" style="display:none;">
+          <div class="divider"></div>
+          <div style="font-size:13px; font-weight:500; color:var(--text-mid); margin-bottom:1rem;">Dados da Pessoa Jurídica (se aplicável)</div>
+          <div class="field-grid cols-2">
+            <div class="field">
+              <label>Razão social</label>
+              <input type="text" name="razao_social" placeholder="Nome da empresa ou instituição">
+            </div>
+            <div class="field">
+              <label>CNPJ</label>
+              <input type="text" name="cnpj" placeholder="00.000.000/0000-00">
+            </div>
+          </div>
+          <div class="field" style="margin-top:1.2rem;">
+            <label>Representante legal responsável pela inscrição</label>
+            <input type="text" name="representante" placeholder="Nome completo do representante">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3: ENDEREÇO -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">📍</div>
+        <span class="section-title">Endereço Residencial</span>
+        <span class="section-num">3 / 8</span>
+      </div>
+      <div class="section-body">
+        <div class="field-grid" style="margin-bottom:1.2rem;">
+          <div class="field">
+            <label>Logradouro (rua / avenida) <span class="req">*</span></label>
+            <input type="text" name="logradouro" placeholder="Ex.: Rua das Flores" required>
+          </div>
+        </div>
+        <div class="field-grid cols-3" style="margin-bottom:1.2rem;">
+          <div class="field">
+            <label>Número <span class="req">*</span></label>
+            <input type="text" name="numero" placeholder="Nº" required>
+          </div>
+          <div class="field" style="grid-column: span 2;">
+            <label>Complemento</label>
+            <input type="text" name="complemento" placeholder="Apto, bloco, casa...">
+          </div>
+        </div>
+        <div class="field-grid cols-2" style="margin-bottom:1.2rem;">
+          <div class="field">
+            <label>Bairro <span class="req">*</span></label>
+            <input type="text" name="bairro" placeholder="Bairro" required>
+          </div>
+          <div class="field">
+            <label>CEP <span class="req">*</span></label>
+            <input type="text" name="cep" placeholder="00000-000" required>
+          </div>
+        </div>
+        <div class="field-grid cols-2">
+          <div class="field">
+            <label>Cidade <span class="req">*</span></label>
+            <input type="text" name="cidade" value="Leme" required>
+          </div>
+          <div class="field">
+            <label>Estado</label>
+            <select name="estado">
+              <option value="SP" selected>São Paulo — SP</option>
+              <option>Minas Gerais — MG</option>
+              <option>Rio de Janeiro — RJ</option>
+              <option>Outro</option>
+            </select>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Tempo de residência neste endereço <span class="req">*</span></label>
+          <select name="tempo_residencia" required>
+            <option value="">Selecione</option>
+            <option>Menos de 6 meses</option>
+            <option>6 meses a 1 ano</option>
+            <option>1 a 3 anos</option>
+            <option>3 a 5 anos</option>
+            <option>Mais de 5 anos</option>
+          </select>
+          <span class="field-hint">Conforme art. 12, II da Portaria nº 01/2025, é requisito possuir residência fixa.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 4: CONTATO -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">📞</div>
+        <span class="section-title">Meios de Contato</span>
+        <span class="section-num">4 / 8</span>
+      </div>
+      <div class="section-body">
+        <div class="field-grid cols-2" style="margin-bottom:1.2rem;">
+          <div class="field">
+            <label>Telefone celular (WhatsApp) <span class="req">*</span></label>
+            <input type="tel" name="celular" placeholder="(19) 9 0000-0000" required>
+          </div>
+          <div class="field">
+            <label>Telefone fixo ou alternativo</label>
+            <input type="tel" name="telefone_alt" placeholder="(19) 0000-0000">
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>E-mail <span class="req">*</span></label>
+          <input type="email" name="email" placeholder="seuemail@exemplo.com" required>
+          <span class="field-hint">O e-mail será utilizado para envio do protocolo de pré-inscrição e comunicações sobre as etapas seguintes.</span>
+        </div>
+        <div class="field">
+          <label>Melhor horário para contato <span class="req">*</span></label>
+          <select name="horario_contato" required>
+            <option value="">Selecione</option>
+            <option>Manhã (8h–12h)</option>
+            <option>Tarde (12h–18h)</option>
+            <option>Noite (18h–21h)</option>
+            <option>Qualquer horário</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 5: ESTADO CIVIL E COMPOSIÇÃO FAMILIAR -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">👨‍👩‍👧</div>
+        <span class="section-title">Estado Civil e Composição Familiar</span>
+        <span class="section-num">5 / 8</span>
+      </div>
+      <div class="section-body">
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Estado civil <span class="req">*</span></label>
+          <select name="estado_civil" required onchange="toggleConjuge(this.value)">
+            <option value="">Selecione</option>
+            <option value="solteiro">Solteiro(a)</option>
+            <option value="casado">Casado(a)</option>
+            <option value="uniao_estavel">União estável</option>
+            <option value="divorciado">Divorciado(a)</option>
+            <option value="viuvo">Viúvo(a)</option>
+            <option value="separado">Separado(a) judicialmente</option>
+          </select>
+        </div>
+
+        <div id="area-conjuge" style="display:none;">
+          <div class="divider"></div>
+          <div style="font-size:13px; font-weight:500; color:var(--text-mid); margin-bottom:1rem;">Dados do cônjuge ou companheiro(a)</div>
+          <div class="field-grid cols-2" style="margin-bottom:1.2rem;">
+            <div class="field" style="grid-column: 1/-1;">
+              <label>Nome completo do cônjuge / companheiro(a)</label>
+              <input type="text" name="conjuge_nome" placeholder="Nome completo">
+            </div>
+          </div>
+          <div class="field-grid cols-2" style="margin-bottom:1.2rem;">
+            <div class="field">
+              <label>Profissão do cônjuge</label>
+              <input type="text" name="conjuge_profissao" placeholder="Profissão ou ocupação">
+            </div>
+            <div class="field">
+              <label>Idade do cônjuge</label>
+              <input type="number" name="conjuge_idade" placeholder="Idade" min="18" max="99">
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:1rem;">
+            <label>O cônjuge / companheiro(a) está ciente e concorda com a inscrição no programa? <span class="req">*</span></label>
+            <div class="option-group inline" style="margin-top:4px;">
+              <label class="option-item" style="flex:none; padding:8px 16px;">
+                <input type="radio" name="conjuge_ciente" value="sim"> <span class="option-label">Sim, concorda</span>
+              </label>
+              <label class="option-item" style="flex:none; padding:8px 16px;">
+                <input type="radio" name="conjuge_ciente" value="nao"> <span class="option-label">Não</span>
+              </label>
+            </div>
+            <span class="field-hint">Conforme art. 12, VI, o apoio dos demais membros da família é requisito para o apadrinhamento afetivo.</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field-grid cols-2" style="margin-bottom:1.2rem;">
+          <div class="field">
+            <label>Quantas pessoas residem em sua casa? <span class="req">*</span></label>
+            <select name="qtd_moradores" required>
+              <option value="">Selecione</option>
+              <option>1 (somente eu)</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6 ou mais</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Há crianças ou adolescentes residindo com você?</label>
+            <select name="tem_criancas">
+              <option value="">Selecione</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Descreva a composição do núcleo familiar (quem reside com você, parentesco e idades aproximadas) <span class="req">*</span></label>
+          <textarea name="composicao_familiar" placeholder="Ex.: Cônjuge, 42 anos; filho, 15 anos; filha, 10 anos. Todos residentes no mesmo imóvel." required></textarea>
+          <span class="field-hint">Conforme art. 13 da Portaria nº 01/2025, a ficha deve conter informações sobre a composição do núcleo familiar.</span>
+        </div>
+
+        <div class="field">
+          <label>Algum morador da residência possui dependência de substâncias psicoativas? <span class="req">*</span></label>
+          <div class="option-group inline" style="margin-top:4px;">
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="substancia_psicoativa" value="nao" required> <span class="option-label">Não</span>
+            </label>
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="substancia_psicoativa" value="sim"> <span class="option-label">Sim</span>
+            </label>
+          </div>
+          <span class="field-hint">Art. 12, VI da Portaria nº 01/2025: é requisito que não haja pessoas dependentes de substâncias psicoativas na residência, no caso de apadrinhamento afetivo.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 6: PERFIL E DISPONIBILIDADE -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">🕐</div>
+        <span class="section-title">Perfil, Disponibilidade e Motivação</span>
+        <span class="section-num">6 / 8</span>
+      </div>
+      <div class="section-body">
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Qual é a sua motivação para participar do Projeto de Apadrinhamento? <span class="req">*</span></label>
+          <textarea name="motivacao" placeholder="Descreva, com suas próprias palavras, o que o(a) motivou a se inscrever neste programa." required></textarea>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Tem experiência prévia com crianças ou adolescentes em situação de vulnerabilidade social?</label>
+          <select name="experiencia_previa">
+            <option value="">Selecione</option>
+            <option>Sim, profissional (educação, saúde, assistência social etc.)</option>
+            <option>Sim, voluntariado ou ação social</option>
+            <option>Sim, experiência pessoal / familiar</option>
+            <option>Não tenho experiência prévia específica</option>
+          </select>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Faixa etária com a qual prefere se relacionar <span class="req">*</span></label>
+          <div class="option-group">
+            <label class="option-item">
+              <input type="checkbox" name="faixa_etaria" value="0-6"> <span class="option-label"><strong>0 a 6 anos</strong> <span>(Inclusão excepcional, conforme § 2º do art. 9º)</span></span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="faixa_etaria" value="7-11"> <span class="option-label"><strong>7 a 11 anos</strong></span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="faixa_etaria" value="12-14"> <span class="option-label"><strong>12 a 14 anos</strong></span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="faixa_etaria" value="15-17"> <span class="option-label"><strong>15 a 17 anos</strong></span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="faixa_etaria" value="sem_preferencia"> <span class="option-label"><strong>Sem preferência de faixa etária</strong></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Tem preferência quanto ao sexo da criança ou adolescente?</label>
+          <div class="option-group inline" style="margin-top:4px;">
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="sexo_preferencia" value="sem_preferencia"> <span class="option-label">Sem preferência</span>
+            </label>
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="sexo_preferencia" value="feminino"> <span class="option-label">Feminino</span>
+            </label>
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="sexo_preferencia" value="masculino"> <span class="option-label">Masculino</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Aceita apadrinhar criança ou adolescente com necessidades especiais de saúde?</label>
+          <select name="necessidades_especiais">
+            <option value="">Selecione</option>
+            <option>Sim, sem restrições</option>
+            <option>Sim, dependendo do tipo de condição</option>
+            <option>Prefiro não, mas posso discutir</option>
+            <option>Não</option>
+          </select>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Disponibilidade de tempo (marque o que se aplica) <span class="req">*</span></label>
+          <div class="option-group">
+            <label class="option-item">
+              <input type="checkbox" name="disponibilidade" value="fins_semana"> <span class="option-label"><strong>Fins de semana</strong> <span>(visitas e retiradas da entidade)</span></span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="disponibilidade" value="feriados"> <span class="option-label"><strong>Feriados</strong></span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="disponibilidade" value="ferias"> <span class="option-label"><strong>Férias escolares</strong></span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="disponibilidade" value="durante_semana"> <span class="option-label"><strong>Durante a semana</strong> <span>(tardes ou noites)</span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Renda familiar mensal aproximada</label>
+          <select name="renda_familiar">
+            <option value="">Prefiro não informar / Selecione</option>
+            <option>Até 1 salário mínimo</option>
+            <option>De 1 a 3 salários mínimos</option>
+            <option>De 3 a 5 salários mínimos</option>
+            <option>De 5 a 10 salários mínimos</option>
+            <option>Acima de 10 salários mínimos</option>
+          </select>
+          <span class="field-hint">Informação opcional, utilizada exclusivamente para fins de triagem técnica.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 7: REQUISITOS LEGAIS -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">⚖️</div>
+        <span class="section-title">Requisitos Legais e Declarações</span>
+        <span class="section-num">7 / 8</span>
+      </div>
+      <div class="section-body">
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Está inscrito no Cadastro Nacional de Adoção (CNA) da Vara da Infância e Juventude? <span class="req">*</span></label>
+          <div class="option-group inline" style="margin-top:4px;">
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="cadastro_adocao" value="nao" required> <span class="option-label">Não</span>
+            </label>
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="cadastro_adocao" value="sim"> <span class="option-label">Sim</span>
+            </label>
+          </div>
+          <span class="field-hint">Art. 12, III da Portaria nº 01/2025: para o apadrinhamento afetivo, não é permitido que o candidato esteja inscrito no cadastro de adoção da VIJ.</span>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Possui antecedentes criminais? <span class="req">*</span></label>
+          <div class="option-group inline" style="margin-top:4px;">
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="antecedentes" value="nao" required> <span class="option-label">Não</span>
+            </label>
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="antecedentes" value="sim"> <span class="option-label">Sim</span>
+            </label>
+          </div>
+          <span class="field-hint">Art. 14, VII da Portaria nº 01/2025: será exigido atestado de antecedentes criminais na fase de triagem.</span>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Tem disponibilidade para participar das oficinas de formação previstas no programa? <span class="req">*</span></label>
+          <div class="option-group inline" style="margin-top:4px;">
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="participa_oficinas" value="sim" required> <span class="option-label">Sim</span>
+            </label>
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="participa_oficinas" value="nao"> <span class="option-label">Não tenho certeza</span>
+            </label>
+          </div>
+          <span class="field-hint">Art. 12, IV e art. 19 da Portaria nº 01/2025: a participação nas oficinas de formação é requisito obrigatório para habilitação.</span>
+        </div>
+
+        <div class="field">
+          <label>Possui alguma condição de saúde física ou mental relevante para a avaliação técnica?</label>
+          <div class="option-group inline" style="margin-top:4px;">
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="saude_relevante" value="nao"> <span class="option-label">Não</span>
+            </label>
+            <label class="option-item" style="flex:none; padding:8px 16px;">
+              <input type="radio" name="saude_relevante" value="sim_quero_informar"> <span class="option-label">Sim, desejo informar à equipe técnica</span>
+            </label>
+          </div>
+          <span class="field-hint">Art. 14, V da Portaria nº 01/2025: será exigido atestado médico de sanidade física e mental na triagem. Esta informação é tratada com sigilo profissional.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 8: DECLARAÇÕES E ENVIO -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">✅</div>
+        <span class="section-title">Declarações, Consentimentos e Envio</span>
+        <span class="section-num">8 / 8</span>
+      </div>
+      <div class="section-body">
+        <div class="declaro-box">
+          <p>Ao submeter esta ficha de pré-inscrição, o(a) candidato(a) declara, para os devidos fins, que as informações prestadas são verídicas, completas e de sua inteira responsabilidade, ciente de que a prestação de informações falsas poderá implicar nas consequências previstas em lei, inclusive penais.</p>
+        </div>
+
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label style="font-size:13px; font-weight:500; color:var(--text); margin-bottom:8px; display:block;">Declaro que:</label>
+
+          <label class="check-item">
+            <input type="checkbox" id="decl1" required>
+            <label for="decl1">Li e compreendi as informações sobre o Projeto de Apadrinhamento e as <strong>regras estabelecidas na Portaria Conjunta nº 01/2025</strong>.</label>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" id="decl2" required>
+            <label for="decl2">Estou ciente de que <strong>esta pré-inscrição não garante habilitação</strong> automática, dependendo de aprovação nas etapas de triagem, entrevista psicossocial, visita domiciliar, oficinas de formação e avaliação judicial.</label>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" id="decl3" required>
+            <label for="decl3">Compreendo que o programa tem como objetivo <strong>o bem-estar e o superior interesse da criança e do adolescente</strong>, e que me comprometo a respeitar os limites e diretrizes estabelecidos pela equipe técnica.</label>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" id="decl4" required>
+            <label for="decl4">Autorizo o tratamento dos dados pessoais fornecidos nesta ficha para os fins exclusivos do <strong>Programa de Apadrinhamento</strong>, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD).</label>
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" id="decl5" required>
+            <label for="decl5">Confirmo que as informações prestadas são <strong>verdadeiras</strong> e que poderei apresentar os documentos exigidos (RG, CPF, certidão de nascimento ou casamento, comprovante de residência, comprovante de renda, atestado médico e certidão de antecedentes criminais) quando convocado(a) pela equipe técnica.</label>
+          </label>
+        </div>
+
+        <div class="field" style="margin-bottom:1.5rem;">
+          <label>Observações adicionais que deseje comunicar à equipe técnica</label>
+          <textarea name="observacoes" placeholder="Campo livre para informações complementares que considere relevantes para sua avaliação (opcional)."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Como ficou sabendo do Projeto de Apadrinhamento?</label>
+          <select name="como_soube">
+            <option value="">Selecione</option>
+            <option>Instagram / Redes sociais</option>
+            <option>Indicação de amigo ou familiar</option>
+            <option>Reportagem ou notícia</option>
+            <option>Fórum, palestra ou evento</option>
+            <option>Profissional da área jurídica ou social</option>
+            <option>Outro</option>
+          </select>
+        </div>
+
+        <div class="submit-area">
+          <button type="submit" class="submit-btn" id="submit-btn">Enviar Pré-Inscrição</button>
+          <p class="submit-note">
+            Após o envio, você receberá uma confirmação. A equipe técnica entrará em contato em até 10 dias úteis para agendamento da triagem.<br>
+            <strong>Atendimento presencial:</strong> Casa do Menor Francisco de Assis de Leme · Vara da Infância e Juventude da Comarca de Leme/SP
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- SUCCESS -->
+  <div id="success-screen">
+    <div class="success-icon">✅</div>
+    <h2>Pré-Inscrição Recebida!</h2>
+    <p>Sua ficha de pré-inscrição foi enviada com sucesso ao Projeto de Apadrinhamento da Comarca de Leme/SP.</p>
+    <p>Guarde este número de protocolo para acompanhar seu processo junto à equipe técnica.</p>
+    <div style="font-size:28px; font-weight:600; color:var(--violet); letter-spacing:0.1em; margin: 1rem 0;" id="protocolo-num"></div>
+    <div class="success-card">
+      <strong>Próximos passos:</strong><br>
+      1. Aguarde contato da equipe técnica em até 10 dias úteis para agendamento da <strong>triagem</strong>.<br>
+      2. Separe a documentação exigida (art. 14 da Portaria nº 01/2025): RG, CPF, certidão de estado civil, comprovante de residência, comprovante de renda, atestado médico e certidão de antecedentes criminais.<br>
+      3. Prepare-se para a <strong>entrevista psicossocial</strong> e, se aplicável, para a <strong>visita domiciliar</strong>.
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <strong>Tribunal de Justiça do Estado de São Paulo · Comarca de Leme</strong><br>
+  Vara da Infância e Juventude · Ministério Público da Comarca de Leme/SP<br>
+  Portaria Conjunta nº 01/2025 · Provimento CG nº 36/2024 · ECA — Lei nº 8.069/1990<br>
+  <br>
+  Os dados fornecidos são protegidos pela LGPD (Lei nº 13.709/2018) e utilizados exclusivamente para fins do Programa de Apadrinhamento.
+</div>
+
+<script>
+  // Modalidade
+  function selectMod(radio, cls, id) {
+    ['mc-afetivo','mc-financeiro','mc-servicos'].forEach(c => {
+      const el = document.getElementById(c);
+      el.classList.remove('selected-mod','selected-gold','selected-teal');
+    });
+    document.getElementById(id).classList.add(cls);
+    document.getElementById('area-servico').style.display = radio.value === 'servicos' ? 'block' : 'none';
+    const pj = document.getElementById('area-pj');
+    pj.style.display = (radio.value === 'financeiro' || radio.value === 'servicos') ? 'block' : 'none';
+  }
+
+  // Cônjuge
+  function toggleConjuge(v) {
+    const el = document.getElementById('area-conjuge');
+    el.style.display = (v === 'casado' || v === 'uniao_estavel') ? 'block' : 'none';
+  }
+
+  // Option items visual
+  document.querySelectorAll('.option-item').forEach(item => {
+    const inp = item.querySelector('input');
+    if (!inp) return;
+    inp.addEventListener('change', () => {
+      if (inp.type === 'radio') {
+        const nm = inp.name;
+        document.querySelectorAll(`input[name="${nm}"]`).forEach(r => {
+          r.closest('.option-item')?.classList.remove('selected');
+        });
+      }
+      item.classList.toggle('selected', inp.checked);
+    });
+  });
+
+  // Progress bar
+  function updateProgress() {
+    const form = document.getElementById('main-form');
+    const allInputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+    const checkboxDecl = form.querySelectorAll('input[type="checkbox"][id^="decl"]');
+    let filled = 0;
+    let total = allInputs.length + checkboxDecl.length;
+
+    allInputs.forEach(inp => {
+      if (inp.type === 'radio') {
+        const nm = inp.name;
+        if (form.querySelector(`input[name="${nm}"]:checked`)) filled++;
+      } else if (inp.type === 'checkbox') {
+        if (inp.checked) filled++;
+      } else {
+        if (inp.value.trim()) filled++;
+      }
+    });
+    // avoid double counting radios
+    const radioGroups = new Set();
+    let radioFilled = 0, radioTotal = 0;
+    allInputs.forEach(inp => {
+      if (inp.type === 'radio') {
+        if (!radioGroups.has(inp.name)) {
+          radioGroups.add(inp.name);
+          radioTotal++;
+          if (form.querySelector(`input[name="${inp.name}"]:checked`)) radioFilled++;
+        }
+      }
+    });
+    const nonRadio = Array.from(allInputs).filter(i => i.type !== 'radio');
+    let nonRadioFilled = 0;
+    nonRadio.forEach(inp => { if (inp.value.trim()) nonRadioFilled++; });
+
+    let declFilled = 0;
+    checkboxDecl.forEach(c => { if (c.checked) declFilled++; });
+
+    const totalItems = nonRadio.length + radioTotal + checkboxDecl.length;
+    const filledItems = nonRadioFilled + radioFilled + declFilled;
+    const pct = Math.min(100, Math.round((filledItems / totalItems) * 100));
+
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent = pct + '%';
+  }
+
+  document.getElementById('main-form').addEventListener('input', updateProgress);
+  document.getElementById('main-form').addEventListener('change', updateProgress);
+
+  // Submit
+  document.getElementById('main-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const decls = ['decl1','decl2','decl3','decl4','decl5'];
+    let ok = true;
+    decls.forEach(id => {
+      if (!document.getElementById(id).checked) {
+        ok = false;
+        document.getElementById(id).closest('.check-item').style.outline = '2px solid var(--error)';
+        document.getElementById(id).closest('.check-item').style.borderRadius = '6px';
+      } else {
+        document.getElementById(id).closest('.check-item').style.outline = 'none';
+      }
+    });
+    if (!ok) {
+      alert('Por favor, marque todas as declarações obrigatórias antes de enviar.');
+      return;
+    }
+    const protocolo = 'APLD-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900000)+100000);
+    document.getElementById('protocolo-num').textContent = protocolo;
+    document.getElementById('main-form').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    document.querySelector('.progress-bar-wrap').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html># apadrinhamento
 Ficha de pré-inscrição — Projeto de Apadrinhamento Comarca de Leme

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -587,7 +588,7 @@
        Exemplo: action="https://formspree.io/f/xpwzabcd"
   ═══════════════════════════════════════════════════════════ -->
   <form id="main-form"
-        action="https://formspree.io/f/SEU_CODIGO_FORMSPREE"
+        action="https://formspree.io/f/xpqeorqq"
         method="POST"
         novalidate>
 
@@ -1274,9 +1275,8 @@
   document.getElementById('main-form').addEventListener('input', updateProgress);
   document.getElementById('main-form').addEventListener('change', updateProgress);
 
-  // Submit — valida declarações e envia via Formspree (fetch assíncrono)
-  document.getElementById('main-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
+  // Submit — valida declarações e envia via POST tradicional ao Formspree
+  document.getElementById('main-form').addEventListener('submit', function(e) {
 
     // Validação das declarações obrigatórias
     const decls = ['decl1','decl2','decl3','decl4','decl5'];
@@ -1292,44 +1292,17 @@
       }
     });
     if (!ok) {
+      e.preventDefault();
       alert('Por favor, marque todas as declarações obrigatórias antes de enviar.');
       return;
     }
 
-    // Desabilita botão durante envio
+    // Validação aprovada — permite envio tradicional ao Formspree
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.textContent = 'Enviando…';
-
-    // Envio assíncrono ao Formspree
-    const formData = new FormData(this);
-    try {
-      const response = await fetch(this.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if (response.ok) {
-        // Sucesso: exibe tela de confirmação com número de protocolo
-        const protocolo = 'APLD-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900000)+100000);
-        document.getElementById('protocolo-num').textContent = protocolo;
-        document.getElementById('main-form').style.display = 'none';
-        document.getElementById('success-screen').style.display = 'block';
-        document.querySelector('.progress-bar-wrap').style.display = 'none';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        // Erro retornado pelo Formspree
-        btn.disabled = false;
-        btn.textContent = 'Enviar Pré-Inscrição';
-        alert('Ocorreu um erro ao enviar o formulário. Por favor, verifique sua conexão e tente novamente. Se o problema persistir, entre em contato com a equipe técnica.');
-      }
-    } catch (err) {
-      // Erro de rede
-      btn.disabled = false;
-      btn.textContent = 'Enviar Pré-Inscrição';
-      alert('Não foi possível conectar ao servidor. Verifique sua conexão com a internet e tente novamente.');
-    }
+    // O formulário será submetido normalmente (POST para o Formspree)
+    // O Formspree redirecionará de volta após o envio
   });
 </script>
 

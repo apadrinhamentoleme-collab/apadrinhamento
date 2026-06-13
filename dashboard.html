@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Apadrinhamento - Leme/SP</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --violet: #3C3489;
+      --violet-mid: #534AB7;
+      --violet-light: #EEEDFE;
+      --gold: #BA7517;
+      --gold-mid: #EF9F27;
+      --teal: #0F6E56;
+      --text: #1A1830;
+      --text-mid: #4A4769;
+      --text-muted: #8A87A8;
+      --border: #D8D6E8;
+      --error: #C0392B;
+      --success: #0F6E56;
+      --bg: #F8F7FF;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: var(--violet);
+      color: white;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .filters {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+    }
+
+    .filter-group input,
+    .filter-group select {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .filter-group input:focus,
+    .filter-group select:focus {
+      outline: none;
+      border-color: var(--violet-mid);
+      box-shadow: 0 0 0 3px rgba(83, 74, 183, 0.1);
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--violet);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--violet-mid);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #0d5a47;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--violet);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .table-wrapper {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      background: var(--violet-light);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-header h2 {
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: var(--violet-light);
+      position: sticky;
+      top: 0;
+    }
+
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border);
+    }
+
+    tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    tbody tr:hover {
+      background: var(--bg);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .badge-approved {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .badge-rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .badge-modal {
+      font-size: 12px;
+      padding: 4px 12px;
+    }
+
+    .badge-modal-afetivo {
+      background: var(--violet-light);
+      color: var(--violet);
+    }
+
+    .badge-modal-financeiro {
+      background: var(--gold-light);
+      color: var(--gold);
+    }
+
+    .badge-modal-servicos {
+      background: var(--teal-light);
+      color: var(--teal);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+
+    .loading::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--border);
+      border-top-color: var(--violet);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .empty {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+
+    .error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .success-msg {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .pagination button {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .pagination button:hover {
+      background: var(--bg);
+    }
+
+    .pagination button.active {
+      background: var(--violet);
+      color: white;
+      border-color: var(--violet);
+    }
+
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      tbody td {
+        padding: 8px 12px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📊 Dashboard de Inscrições</h1>
+    <p>Projeto de Apadrinhamento - Comarca de Leme/SP</p>
+  </div>
+
+  <div class="container">
+    <div id="error-message"></div>
+    <div id="success-message"></div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label>Modalidade</label>
+        <select id="filterModalidade">
+          <option value="all">Todas</option>
+          <option value="afetivo">Apadrinhamento Afetivo</option>
+          <option value="financeiro">Apadrinhamento Financeiro</option>
+          <option value="servicos">Prestação de Serviços</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Status</label>
+        <select id="filterStatus">
+          <option value="all">Todos</option>
+          <option value="pending_review">Pendente</option>
+          <option value="approved">Aprovado</option>
+          <option value="rejected">Rejeitado</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Buscar</label>
+        <input type="text" id="filterSearch" placeholder="Nome, email, CPF...">
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn btn-primary" onclick="aplicarFiltros()">🔍 Filtrar</button>
+        <button class="btn btn-secondary" onclick="limparFiltros()">↺ Limpar</button>
+        <button class="btn btn-success" onclick="exportarCSV()">📥 Exportar CSV</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="value" id="stat-total">-</div>
+        <div class="label">Total de Inscrições</div>
+      </div>
+      <div class="stat-card">
+        <div class="value" id="stat-pending">-</div>
+        <div class="label">Pendentes</div>
+      </div>
+      <div class="stat-card">
+        <div class="value" id="stat-approved">-</div>
+        <div class="label">Aprovadas</div>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <div class="table-header">
+        <h2>Inscrições Recebidas</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Modalidade</th>
+            <th>Profissão</th>
+            <th>Status</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody id="submissions-table">
+          <tr>
+            <td colspan="7" class="loading">Carregando inscrições...</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <script>
+    // Configuração
+    const API_BASE_URL = window.API_ENDPOINT || 'https://seu-projeto.vercel.app';
+    const ADMIN_TOKEN = localStorage.getItem('admin_token') || '';
+    let currentPage = 0;
+    const pageSize = 20;
+    let totalCount = 0;
+
+    // Mensagens
+    const showError = (msg) => {
+      const el = document.getElementById('error-message');
+      el.innerHTML = `<div class="error">${msg}</div>`;
+      setTimeout(() => el.innerHTML = '', 5000);
+    };
+
+    const showSuccess = (msg) => {
+      const el = document.getElementById('success-message');
+      el.innerHTML = `<div class="success-msg">${msg}</div>`;
+      setTimeout(() => el.innerHTML = '', 5000);
+    };
+
+    // Verificar autenticação
+    const checkAuth = () => {
+      if (!ADMIN_TOKEN) {
+        const token = prompt('Digite o token de administrador:');
+        if (!token) {
+          window.location.href = '/';
+          return false;
+        }
+        localStorage.setItem('admin_token', token);
+        window.location.reload();
+      }
+      return true;
+    };
+
+    // Carregar inscrições
+    const carregarInscricoes = async (page = 0) => {
+      try {
+        const modalidade = document.getElementById('filterModalidade').value;
+        const status = document.getElementById('filterStatus').value;
+        const search = document.getElementById('filterSearch').value;
+
+        const params = new URLSearchParams({
+          limit: pageSize,
+          offset: page * pageSize,
+          ...(modalidade !== 'all' && { modalidade }),
+          ...(status !== 'all' && { status }),
+          ...(search && { search })
+        });
+
+        const response = await fetch(
+          `${API_BASE_URL}/api/submissions-list?${params}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${ADMIN_TOKEN}`
+            }
+          }
+        );
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem('admin_token');
+            checkAuth();
+            return;
+          }
+          throw new Error('Erro ao carregar inscrições');
+        }
+
+        const result = await response.json();
+        totalCount = result.total;
+        currentPage = page;
+
+        renderTable(result.data);
+        renderPagination(result.total);
+        updateStats();
+
+      } catch (error) {
+        console.error(error);
+        showError(error.message);
+      }
+    };
+
+    // Renderizar tabela
+    const renderTable = (data) => {
+      const tbody = document.getElementById('submissions-table');
+
+      if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">Nenhuma inscrição encontrada</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = data.map(row => `
+        <tr>
+          <td><strong>${row.nome}</strong></td>
+          <td>${row.email}</td>
+          <td>${row.celular}</td>
+          <td>
+            <span class="badge badge-modal badge-modal-${row.modalidade}">
+              ${formatModalidade(row.modalidade)}
+            </span>
+          </td>
+          <td>${row.profissao || '-'}</td>
+          <td>
+            <span class="badge badge-${row.status}">
+              ${formatStatus(row.status)}
+            </span>
+          </td>
+          <td>${new Date(row.submitted_at).toLocaleDateString('pt-BR')}</td>
+        </tr>
+      `).join('');
+    };
+
+    // Renderizar paginação
+    const renderPagination = (total) => {
+      const pagination = document.getElementById('pagination');
+      const totalPages = Math.ceil(total / pageSize);
+
+      if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+      }
+
+      let html = '';
+      for (let i = 0; i < totalPages; i++) {
+        const isActive = i === currentPage;
+        html += `
+          <button 
+            class="${isActive ? 'active' : ''}"
+            onclick="carregarInscricoes(${i})"
+            ${isActive ? 'disabled' : ''}
+          >
+            ${i + 1}
+          </button>
+        `;
+      }
+      pagination.innerHTML = html;
+    };
+
+    // Atualizar estatísticas
+    const updateStats = async () => {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/submissions-list?limit=1`,
+          {
+            headers: { 'Authorization': `Bearer ${ADMIN_TOKEN}` }
+          }
+        );
+        const result = await response.json();
+        document.getElementById('stat-total').textContent = result.total || 0;
+
+        // Pending count
+        const pendingRes = await fetch(
+          `${API_BASE_URL}/api/submissions-list?status=pending_review&limit=1`,
+          {
+            headers: { 'Authorization': `Bearer ${ADMIN_TOKEN}` }
+          }
+        );
+        const pendingResult = await pendingRes.json();
+        document.getElementById('stat-pending').textContent = pendingResult.total || 0;
+
+        // Approved count
+        const approvedRes = await fetch(
+          `${API_BASE_URL}/api/submissions-list?status=approved&limit=1`,
+          {
+            headers: { 'Authorization': `Bearer ${ADMIN_TOKEN}` }
+          }
+        );
+        const approvedResult = await approvedRes.json();
+        document.getElementById('stat-approved').textContent = approvedResult.total || 0;
+      } catch (error) {
+        console.error('Erro ao atualizar estatísticas:', error);
+      }
+    };
+
+    // Filtros
+    const aplicarFiltros = () => {
+      currentPage = 0;
+      carregarInscricoes(0);
+    };
+
+    const limparFiltros = () => {
+      document.getElementById('filterModalidade').value = 'all';
+      document.getElementById('filterStatus').value = 'all';
+      document.getElementById('filterSearch').value = '';
+      currentPage = 0;
+      carregarInscricoes(0);
+    };
+
+    // Exportar CSV
+    const exportarCSV = async () => {
+      try {
+        const modalidade = document.getElementById('filterModalidade').value;
+        const status = document.getElementById('filterStatus').value;
+
+        const params = new URLSearchParams({
+          ...(modalidade !== 'all' && { modalidade }),
+          ...(status !== 'all' && { status })
+        });
+
+        const response = await fetch(
+          `${API_BASE_URL}/api/submissions-export?${params}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${ADMIN_TOKEN}`
+            }
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Erro ao exportar');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `apadrinhamento-inscricoes-${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+
+        showSuccess('Arquivo exportado com sucesso!');
+      } catch (error) {
+        console.error(error);
+        showError(error.message);
+      }
+    };
+
+    // Formatadores
+    const formatModalidade = (mod) => {
+      const map = {
+        'afetivo': '💜 Afetivo',
+        'financeiro': '💛 Financeiro',
+        'servicos': '🤝 Serviços'
+      };
+      return map[mod] || mod;
+    };
+
+    const formatStatus = (status) => {
+      const map = {
+        'pending_review': 'Pendente',
+        'approved': 'Aprovado',
+        'rejected': 'Rejeitado'
+      };
+      return map[status] || status;
+    };
+
+    // Inicializar
+    if (checkAuth()) {
+      carregarInscricoes(0);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+// Script para submissão do formulário
+// Adicione este arquivo ao README.md dentro da tag <script></script>
+
+const API_ENDPOINT = process.env.VITE_API_URL || 'https://apadrinhamento.vercel.app/api/submissions';
+
+const collectFormData = () => {
+  const form = document.getElementById('main-form');
+  const formData = new FormData(form);
+  const data = {};
+
+  // Converter FormData para objeto
+  for (let [key, value] of formData.entries()) {
+    if (key === 'faixa_etaria') {
+      if (!data[key]) data[key] = [];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  }
+
+  return data;
+};
+
+const validateSubmission = (data) => {
+  const requiredFields = ['modalidade', 'nome', 'rg', 'cpf', 'nascimento', 'nacionalidade', 'profissao', 'logradouro', 'numero', 'bairro', 'cep', 'cidade', 'celular', 'email', 'horario_contato', 'estado_civil', 'qtd_moradores', 'composicao_familiar', 'substancia_psicoativa', 'motivacao', 'faixa_etaria'];
+
+  const missing = requiredFields.filter(field => {
+    const value = data[field];
+    if (Array.isArray(value)) return value.length === 0;
+    return !value || value.toString().trim() === '';
+  });
+
+  if (missing.length > 0) {
+    throw new Error(`Por favor, preencha os campos obrigatórios: ${missing.join(', ')}`);
+  }
+};
+
+const submitForm = async (e) => {
+  e.preventDefault();
+  const submitBtn = document.querySelector('.submit-btn');
+  const originalText = submitBtn.textContent;
+
+  try {
+    // Coletar dados
+    const data = collectFormData();
+
+    // Validar
+    validateSubmission(data);
+
+    // Mostrar carregamento
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+
+    // Enviar para API
+    const response = await fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || 'Erro ao enviar inscrição');
+    }
+
+    // Sucesso
+    document.getElementById('main-form').style.display = 'none';
+    document.querySelector('.progress-bar-wrap').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+
+    // Scroll para o topo
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Log de sucesso
+    console.log('Inscrição enviada com ID:', result.id);
+
+  } catch (error) {
+    console.error('Erro:', error);
+    alert(`Erro: ${error.message}`);
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+  }
+};
+
+// Vincular ao formulário quando o DOM estiver pronto
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('main-form');
+    if (form) {
+      form.addEventListener('submit', submitForm);
+    }
+  });
+} else {
+  const form = document.getElementById('main-form');
+  if (form) {
+    form.addEventListener('submit', submitForm);
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "apadrinhamento-backend",
+  "version": "1.0.0",
+  "description": "Backend para recebimento de fichas de pré-inscrição do Projeto de Apadrinhamento",
+  "main": "api/submissions.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "start": "vercel start"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}

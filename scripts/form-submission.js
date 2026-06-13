@@ -1,7 +1,8 @@
 // Script para submissão do formulário
-// Adicione este arquivo ao README.md dentro da tag <script></script>
+// Este arquivo deve ser referenciado no HTML:
+// <script src="scripts/form-submission.js"></script>
 
-const API_ENDPOINT = process.env.VITE_API_URL || 'https://apadrinhamento.vercel.app/api/submissions';
+const API_ENDPOINT = window.API_ENDPOINT || process.env.VITE_API_URL || 'https://seu-projeto.vercel.app/api/submissions';
 
 const collectFormData = () => {
   const form = document.getElementById('main-form');
@@ -35,12 +36,45 @@ const validateSubmission = (data) => {
   }
 };
 
+const showErrorMessage = (message) => {
+  // Criar elemento de erro se não existir
+  let errorBox = document.getElementById('error-message');
+  if (!errorBox) {
+    errorBox = document.createElement('div');
+    errorBox.id = 'error-message';
+    errorBox.style.cssText = `
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 2rem;
+      color: #721c24;
+      font-size: 13px;
+      line-height: 1.6;
+    `;
+    const mainWrap = document.querySelector('.main-wrap');
+    mainWrap.insertBefore(errorBox, mainWrap.firstChild);
+  }
+  errorBox.innerHTML = `<strong>Erro:</strong> ${message}`;
+  errorBox.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const hideErrorMessage = () => {
+  const errorBox = document.getElementById('error-message');
+  if (errorBox) {
+    errorBox.style.display = 'none';
+  }
+};
+
 const submitForm = async (e) => {
   e.preventDefault();
   const submitBtn = document.querySelector('.submit-btn');
   const originalText = submitBtn.textContent;
 
   try {
+    hideErrorMessage();
+
     // Coletar dados
     const data = collectFormData();
 
@@ -79,7 +113,7 @@ const submitForm = async (e) => {
 
   } catch (error) {
     console.error('Erro:', error);
-    alert(`Erro: ${error.message}`);
+    showErrorMessage(error.message);
     submitBtn.disabled = false;
     submitBtn.textContent = originalText;
   }

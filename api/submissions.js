@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 import cors from 'cors';
+import { sendAdminNotification, sendCandidateConfirmation } from './notifications.js';
 
 const corsHandler = cors({
-  origin: ['https://apadrinhamentoleme-collab.github.io', 'http://localhost:3000'],
+  origin: ['https://apadrinhamentoleme-collab.github.io', 'http://localhost:3000', 'http://localhost:5173'],
   credentials: true,
   methods: ['POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -84,6 +85,19 @@ export default async (req, res) => {
     // Sanitizar dados
     const sanitized = sanitizeData(formData);
 
+    // Verificar se CPF já existe
+    const { data: existingCPF } = await supabase
+      .from('submissions')
+      .select('id')
+      .eq('cpf', sanitized.cpf)
+      .limit(1);
+
+    if (existingCPF && existingCPF.length > 0) {
+      return res.status(409).json({ 
+        error: 'Este CPF já possui uma inscrição registrada' 
+      });
+    }
+
     // Inserir no Supabase
     const { data, error } = await supabase
       .from('submissions')
@@ -102,12 +116,19 @@ export default async (req, res) => {
       return res.status(500).json({ error: 'Erro ao salvar inscrição' });
     }
 
+    // Enviar notificações (assíncronas - não falha se houver erro)
+    const submittedData = data[0];
+    Promise.all([
+      sendAdminNotification(submittedData),
+      sendCandidateConfirmation(submittedData)
+    ]).catch(err => console.error('Erro ao enviar notificações:', err));
+
     // Sucesso
     return res.status(201).json({
       success: true,
       message: 'Inscrição recebida com sucesso!',
-      id: data[0].id,
-      timestamp: data[0].submitted_at
+      id: submittedData.id,
+      timestamp: submittedData.submitted_at
     });
 
   } catch (error) {
